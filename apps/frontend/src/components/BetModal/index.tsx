@@ -22,7 +22,7 @@ export const BetModal = observer(({ open, onClose, eventId, eventName }: BetModa
   const [betAmount, setBetAmount] = useState<string>('');
 
   const handlePlaceBet = async () => {
-    if (!betAmount || isNaN(Number(betAmount)) || Number(betAmount) < 0) {
+    if (!betAmount || isNaN(Number(betAmount)) || Number(betAmount) <= 0) {
       errorStore.setError('Please enter a valid bet amount.');
       return;
     }
