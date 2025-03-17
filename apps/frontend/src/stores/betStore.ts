@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import { enqueueSnackbar } from 'notistack';
 import { api } from './api';
 import { BACKEND_URL } from './constants';
 import { Bet } from './types';
@@ -24,6 +25,7 @@ class BetStore {
     try {
       const response = await api.post('/bets', { amount, event_id: eventId });
       this.bets.unshift(response.data);
+      enqueueSnackbar('Bet placed successfully!', { variant: 'success' });
     } catch (error) {
       errorStore.setError('Failed to place bet');
     }

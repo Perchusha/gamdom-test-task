@@ -2,53 +2,40 @@
 
 ---
 
-## Installation & Setup
-### 1️⃣ Clone the repository
+## Installation
+
+1. Install dependencies:
+   ```sh
+   yarn install
+   ```
+
+## Available Scripts
+
+### Development Mode
 ```sh
-git clone https://github.com/Perchusha/gamdom-test-task.git
-cd gamdom-test-task/apps/frontend
+yarn start
 ```
+Runs the frontend in development mode using Vite.
 
-### 2️⃣ Install dependencies
-```sh
-yarn install
-```
-
-### 3️⃣ Create `.env` file
-Create a `.env` file in the `apps/frontend` directory:
-```sh
-VITE_BACKEND_URL=http://localhost:5000
-```
-
-### 4️⃣ Start the development server
-```sh
-yarn dev
-```
-Now the app should be available at **`http://localhost:5173`**.
-
----
-
-## 🌜 Available Scripts
-| Command | Description |
-|---------|-------------|
-| `yarn dev` | Start the development server |
-| `yarn build` | Build the project for production |
-| `yarn preview` | Preview the production build |
-| `yarn lint` | Run ESLint to check for code issues |
-
----
-
-## 🛠️ Deployment
-To build the frontend for production, run:
+### Build for Production
 ```sh
 yarn build
 ```
-The build files will be available in the `dist/` folder.
+Compiles the project and outputs the production-ready files in the `dist/` directory.
+
+### Preview Production Build
+```sh
+yarn preview
+```
+Starts a local server to serve the built application on port 5173.
+
+## Running in Docker
+To build and run the frontend using Docker:
+```sh
+docker build -t frontend .
+docker run -p 5173:5173 frontend
+```
+
+Ensure the backend is running separately to connect to the API.
 
 ---
-
-## 📌 Notes
-- Make sure you are using **node version 20**
-- Make sure the **backend is running** at `http://localhost:5000`
-- You need to be **logged in** to place bets
-- Events and bets update in **real-time**

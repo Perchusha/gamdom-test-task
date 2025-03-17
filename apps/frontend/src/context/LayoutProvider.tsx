@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { CssBaseline } from '@mui/material';
+import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material/styles';
+import * as components from '../theme';
 
 type LayoutContext = {
   headerRef: React.RefObject<HTMLDivElement | null> | null;
@@ -30,6 +32,18 @@ export const LayoutProvider: React.FC<LayoutProviderProps> = ({ children }) => {
     if (headerRef.current) setHeaderHeight(headerRef.current.offsetHeight);
   };
 
+  const theme = responsiveFontSizes(
+    createTheme({
+      components,
+      typography: {
+        fontFamily: 'Manrope, sans-serif',
+      },
+      palette: {
+        mode: 'dark',
+      },
+    })
+  );
+
   useEffect(() => {
     updateHeights();
     window.addEventListener('resize', updateHeights);
@@ -48,8 +62,10 @@ export const LayoutProvider: React.FC<LayoutProviderProps> = ({ children }) => {
 
   return (
     <LayoutContext.Provider value={contextValue}>
-      <CssBaseline />
-      {children}
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
     </LayoutContext.Provider>
   );
 };

@@ -10,13 +10,19 @@ import {
   Typography,
 } from '@mui/material';
 import { betStore, errorStore } from '../../stores';
-import { BetModalProps } from './types';
+
+type BetModalProps = {
+  open: boolean;
+  onClose: () => void;
+  eventId: number;
+  eventName: string;
+};
 
 export const BetModal = observer(({ open, onClose, eventId, eventName }: BetModalProps) => {
   const [betAmount, setBetAmount] = useState<string>('');
 
   const handlePlaceBet = async () => {
-    if (!betAmount || isNaN(Number(betAmount))) {
+    if (!betAmount || isNaN(Number(betAmount)) || Number(betAmount) < 0) {
       errorStore.setError('Please enter a valid bet amount.');
       return;
     }

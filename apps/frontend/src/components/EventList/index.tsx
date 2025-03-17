@@ -3,7 +3,11 @@ import { observer } from 'mobx-react-lite';
 import { Button, Card, CardContent, Typography } from '@mui/material';
 import { eventStore } from '../../stores';
 import { BetModal } from '../BetModal';
-import { SelectedEventState } from './types';
+
+type SelectedEventState = {
+  id: number;
+  name: string;
+};
 
 export const EventList = observer(() => {
   const [betModalOpen, setBetModalOpen] = useState<boolean>(false);

@@ -2,45 +2,82 @@
 
 ---
 
-## Installation & Setup
-### 1️⃣ Clone the repository
-```sh
-git clone https://github.com/Perchusha/gamdom-test-task.git
-cd gamdom-test-task
-```
-
-### 2️⃣ Install dependencies (for all workspaces)
-```sh
-yarn install
-```
-
-### 3️⃣ Start the development environment
-Run both frontend and backend concurrently:
-```sh
-yarn dev
-```
-This will start:
-- **Frontend** at `http://localhost:5173`
-- **Backend** at `http://localhost:5000`
+## **Requirements**
+- Docker & Docker Compose installed
+- Node.js (v20) and Yarn (v1.22.22) for local development
 
 ---
 
-## Project Structure
-```
-/
-├── apps/
-│   ├── backend/   # Backend (Express + TypeORM + PostgreSQL)
-│   ├── frontend/  # Frontend (React + Vite + MobX + MUI)
-├── package.json   # Monorepo config with Yarn workspaces
-├── .prettierrc    # Code formatting rules
-└── README.md      # This file
-```
+## **Running with Docker (Recommended)**
+This will start the backend, frontend, and PostgreSQL database.
+
+1. **Clone the repository**
+   ```sh
+   git clone https://github.com/Perchusha/gamdom-test-task.git
+   cd gamdom-test-task
+   ```
+
+2. **Start all services**
+   ```sh
+   docker-compose up --build -d
+   ```
+   This will build and start:
+    - Backend (`http://localhost:5000`)
+    - Frontend (`http://localhost:5173`)
+    - PostgreSQL (`localhost:5432`)
+
+3. **Check running containers**
+   ```sh
+   docker ps
+   ```
+
+4. **Run database seed (optional)**
+   ```sh
+   docker exec -it betting_backend yarn seed
+   ```
+
+5. **Stop all containers**
+   ```sh
+   docker-compose down
+   ```
 
 ---
 
-## 📌 Notes
-- This project uses **Yarn workspaces** to manage dependencies efficiently.
-- Backend and frontend can be developed separately or together.
-- Uses **Prettier** for consistent code formatting (`yarn lint`).
-- Ensure **Docker is installed** if running PostgreSQL via Docker.
+## **Running Locally (Without Docker)**
+This requires a running PostgreSQL instance.
+
+1. **Install dependencies**
+   ```sh
+   yarn install
+   ```
+
+2. **Start the backend**
+   ```sh
+   yarn workspace @gamdom/backend dev
+   ```
+
+3. **Start the frontend**
+   ```sh
+   yarn workspace @gamdom/frontend start
+   ```
+
+4. **Run database seed**
+   ```sh
+   yarn workspace @gamdom/backend seed
+   ```
+
+5. **Stop services**  
+   Press `Ctrl + C` in each terminal.
+
+---
+
+## **Logs & Debugging**
+- View logs of a running container:
+  ```sh
+  docker logs -f betting_backend
+  ```
+- Check running processes:
+  ```sh
+  docker ps
+  ```
 

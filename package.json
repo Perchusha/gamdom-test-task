@@ -6,19 +6,10 @@
   "author": "Anton Perch <perch.anton@gmail.com>",
   "license": "MIT",
   "private": true,
-  "scripts": {
-    "build:frontend": "yarn workspace @gamdom/frontend build",
-    "build:backend": "yarn workspace @gamdom/backend build",
-    "build": "yarn build:backend && yarn build:frontend",
-    "start:frontend": "yarn workspace @gamdom/frontend preview",
-    "start:backend": "yarn workspace @gamdom/backend start",
-    "start": "concurrently \"yarn start:frontend\" \"yarn start:backend\""
-  },
   "workspaces": [
     "apps/*"
   ],
   "devDependencies": {
-    "concurrently": "^9.1.2",
     "prettier": "^3.5.3"
   }
 }
