@@ -1,5 +1,4 @@
 import { makeAutoObservable } from 'mobx';
-import { io } from 'socket.io-client';
 import { api } from './api';
 import { BACKEND_URL } from './constants';
 import { Bet } from './types';
@@ -7,15 +6,9 @@ import { errorStore } from './errorStore.ts';
 
 class BetStore {
   bets: Bet[] = [];
-  socket = io(BACKEND_URL);
 
   constructor() {
     makeAutoObservable(this);
-    this.fetchBets();
-
-    this.socket.on('bet_update', (updatedBets: Bet[]) => {
-      this.bets = updatedBets;
-    });
   }
 
   async fetchBets() {

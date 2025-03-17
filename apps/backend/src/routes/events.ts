@@ -1,25 +1,8 @@
 import { Router } from 'express';
-import { Server } from 'socket.io';
 import { Event } from '../entities';
 import AppDataSource from '../db';
 
 const router = Router();
-let io: Server;
-
-export function setEventsSocket(socketIo: Server) {
-  io = socketIo;
-}
-
-const broadcastEvents = async () => {
-  try {
-    const events = await AppDataSource.getRepository(Event).find();
-    if (io) {
-      io.emit('event_update', events);
-    }
-  } catch (error) {
-    console.error('Error broadcasting events:', error);
-  }
-};
 
 router.get('/', async (_req, res) => {
   try {
@@ -47,8 +30,6 @@ router.post('/', async (req, res) => {
 
     const event = AppDataSource.getRepository(Event).create({ event_name, odds });
     await AppDataSource.getRepository(Event).save(event);
-
-    broadcastEvents().catch(err => console.error('Error in broadcastEvents:', err));
 
     res.status(201).json(event);
   } catch (error) {
@@ -85,8 +66,6 @@ router.put('/:id', async (req, res) => {
 
     await eventRepo.save(event);
 
-    broadcastEvents().catch(err => console.error('Error in broadcastEvents:', err));
-
     res.json(event);
   } catch (error) {
     console.error('Error updating event:', error);
@@ -105,8 +84,6 @@ router.delete('/:id', async (req, res) => {
       res.status(404).json({ error: 'Event not found' });
       return;
     }
-
-    broadcastEvents().catch(err => console.error('Error in broadcastEvents:', err));
 
     res.json({ message: 'Event deleted' });
   } catch (error) {

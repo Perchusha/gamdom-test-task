@@ -1,10 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
-import { Server } from 'socket.io';
 import cors from 'cors';
-import eventsRouter, { setEventsSocket } from './routes/events';
-import betsRouter, { setBetSocket } from './routes/bets';
+import eventsRouter from './routes/events';
+import betsRouter from './routes/bets';
 import authRouter from './routes/auth';
 
 dotenv.config();
@@ -27,22 +26,4 @@ app.use('/api/bets', betsRouter);
 app.use('/api/events', eventsRouter);
 
 const server = createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: FRONTEND_URL,
-    methods: ['GET', 'POST'],
-  },
-});
-
-setEventsSocket(io);
-setBetSocket(io);
-
-io.on('connection', socket => {
-  console.log(`🟢 User connected: ${socket.id}`);
-
-  socket.on('disconnect', () => {
-    console.log(`🔴 User disconnected: ${socket.id}`);
-  });
-});
-
 server.listen(PORT, () => console.log(`🚀 Server is running on http://localhost:${PORT}`));

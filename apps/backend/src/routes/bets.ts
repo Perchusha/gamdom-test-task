@@ -1,37 +1,9 @@
 import { Router } from 'express';
-import { Server } from 'socket.io';
 import { Bet, Event, User } from '../entities';
 import AppDataSource from '../db';
 import { authMiddleware, AuthRequest } from './auth';
 
 const router = Router();
-let io: Server;
-
-export function setBetSocket(ioInstance: Server) {
-  io = ioInstance;
-}
-
-const broadcastBets = async () => {
-  try {
-    const bets = await AppDataSource.getRepository(Bet).find({
-      relations: ['event', 'user'],
-      select: {
-        user: {
-          user_id: true,
-          username: true,
-        },
-      },
-      order: {
-        created_at: 'DESC',
-      },
-    });
-    if (io) {
-      io.emit('bet_update', bets);
-    }
-  } catch (error) {
-    console.error('Error broadcasting bets:', error);
-  }
-};
 
 router.get('/', async (_req, res) => {
   try {
@@ -90,8 +62,6 @@ router.post('/', authMiddleware, async (req: AuthRequest, res) => {
 
     const bet = AppDataSource.getRepository(Bet).create({ amount, event, user });
     await AppDataSource.getRepository(Bet).save(bet);
-
-    broadcastBets().catch(err => console.error('Error in broadcastBets:', err));
 
     res.status(201).json(bet);
   } catch (error) {
