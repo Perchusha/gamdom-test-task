@@ -1,0 +1,40 @@
+import { makeAutoObservable } from 'mobx';
+import { io } from 'socket.io-client';
+import { api } from './api';
+import { BACKEND_URL } from './constants';
+import { Bet } from './types';
+import { errorStore } from './errorStore.ts';
+
+class BetStore {
+  bets: Bet[] = [];
+  socket = io(BACKEND_URL);
+
+  constructor() {
+    makeAutoObservable(this);
+    this.fetchBets();
+
+    this.socket.on('bet_update', (updatedBets: Bet[]) => {
+      this.bets = updatedBets;
+    });
+  }
+
+  async fetchBets() {
+    try {
+      const response = await api.get<Bet[]>(`${BACKEND_URL}/api/bets`);
+      this.bets = response.data;
+    } catch (error) {
+      errorStore.setError('Failed to fetch bets');
+    }
+  }
+
+  async placeBet(amount: number, eventId: number) {
+    try {
+      const response = await api.post('/bets', { amount, event_id: eventId });
+      this.bets.unshift(response.data);
+    } catch (error) {
+      errorStore.setError('Failed to place bet');
+    }
+  }
+}
+
+export const betStore = new BetStore();
