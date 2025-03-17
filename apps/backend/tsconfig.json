@@ -6,7 +6,10 @@
     "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
-  }
+  },
+  "include": ["src"],
+  "exclude": ["__tests__", "jest.config.ts", "jest.setup.ts"]
 }

@@ -1,41 +1,34 @@
-# Online Betting Dashboard - Frontend
+# Frontend - Online Betting Dashboard
+
+This is the frontend of the Online Betting Dashboard, built with **React** and **Vite**. It uses **MobX** for state management and **Material UI (MUI)** for styling.
 
 ---
 
-## Installation
+## **Scripts**
+All scripts should be run from the `apps/frontend` directory or using `yarn workspace @gamdom/frontend <script>` from the root.
 
-1. Install dependencies:
-   ```sh
-   yarn install
-   ```
-
-## Available Scripts
-
-### Development Mode
+### **Development**
 ```sh
 yarn start
 ```
-Runs the frontend in development mode using Vite.
+Starts the Vite development server (`http://localhost:5173`).
 
-### Build for Production
+### **Build for Production**
 ```sh
 yarn build
 ```
-Compiles the project and outputs the production-ready files in the `dist/` directory.
+Compiles the project for production.
 
-### Preview Production Build
+### **Preview Production Build**
 ```sh
 yarn preview
 ```
-Starts a local server to serve the built application on port 5173.
+Serves the production build locally on `http://localhost:5173`.
 
-## Running in Docker
-To build and run the frontend using Docker:
+### **Run Tests**
 ```sh
-docker build -t frontend .
-docker run -p 5173:5173 frontend
+yarn test
 ```
+Runs all test cases using **Vitest**.
 
-Ensure the backend is running separately to connect to the API.
 
----

@@ -13,12 +13,8 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD || 'password',
   database: process.env.DB_NAME || 'betting_db',
   entities: [Bet, Event, User],
-  synchronize: true, // dev
+  synchronize: true,
   logging: true,
 });
-
-AppDataSource.initialize()
-  .then(() => console.log('📦 Connected to PostgreSQL!'))
-  .catch(error => console.error('🔥 Database connection failed:', error));
 
 export default AppDataSource;
